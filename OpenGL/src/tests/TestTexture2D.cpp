@@ -1,7 +1,9 @@
 #include "TestTexture2D.h"
 
-#include "Renderer.h"
 #include <GL/glew.h>
+
+#include "Renderer.h"
+#include "VertexBufferLayout.h"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
