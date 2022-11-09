@@ -1,4 +1,4 @@
-#include "TestTexture2D.h"
+#include "TestSquare2D.h"
 
 #include <GL/glew.h>
 #include "GLFW/glfw3.h"
@@ -12,18 +12,17 @@
 
 namespace test {
 
-	TestTexture2D::TestTexture2D()
-		: m_Proj(glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f)),
-		m_View(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0))),
-		m_TranslationA(200, 200, 0),
-		m_TranslationB(400, 200, 0)
+	TestSquare2D::TestSquare2D()
+		: m_Proj(glm::perspective(glm::radians(45.0f), 960.0f / 540.0f, 0.1f, 100.0f)),
+		m_TranslationA(0, 0, -3)
+	 
 	{
 
 		float positions[] = {
-		   -50.0f, -50.0f,  0.0f, 0.0f,
-		    50.0f, -50.0f,  1.0f, 0.0f,
-		    50.0f,  50.0f,  1.0f, 1.0f,
-		   -50.0f,  50.0f,  0.0f, 1.0f,
+			0.5f, 0.5f, 0.0f,   0.0f, 0.0f,
+			0.5f, -0.5f, 0.0f,   1.0f, 0.0f,
+		   -0.5f, -0.5f, 0.0f,   1.0f, 1.0f,
+		   -0.5f,  0.5f, 0.0f,   0.0f, 1.0f,
 		};
 
 		unsigned int indicies[] = {
@@ -31,6 +30,7 @@ namespace test {
 			2, 3, 0
 		};
 
+		glEnable(GL_DEPTH_TEST);
 		GLCall(glEnable(GL_BLEND));
 		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
@@ -38,7 +38,7 @@ namespace test {
 
 		m_VertexBuffer = std::make_unique<VertexBuffer>(positions, 4 * 5 * sizeof(float));
 		VertexBufferLayout layout;
-		layout.Push<float>(2);
+		layout.Push<float>(3);
 		layout.Push<float>(2);
 		m_VAO->AddBuffer(*m_VertexBuffer, layout);
 
@@ -53,35 +53,31 @@ namespace test {
 
 	}
 
-	TestTexture2D::~TestTexture2D()
+	TestSquare2D::~TestSquare2D()
 	{
 	}
 
-	void TestTexture2D::OnUpdate(float deltaTime)
+	void TestSquare2D::OnUpdate(float deltaTime)
 	{
 	}
 
-	void TestTexture2D::OnRender(GLFWwindow* window)
+	void TestSquare2D::OnRender(GLFWwindow* window)
 	{
 		GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
-		GLCall(glClear(GL_COLOR_BUFFER_BIT));
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		Renderer renderer;
 
 		m_Texture->Bind();
-
 		{
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), m_TranslationA);
-			glm::mat4 mvp = m_Proj * m_View * model;
-	
-			m_Shader->Bind();
-			m_Shader->SetUniformMat4f("u_MVP", mvp);
-			renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
-		}
+			glm::mat4 trans = glm::mat4(1.0f);
+			trans = glm::translate(trans, m_TranslationA);
+			// trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::mat4 mvp = m_Proj * trans;
+			glm::vec4 vec = glm::vec4(0.5f, 0.5f, 0.0f, 1.0f);
+			glm::vec4 pos = mvp * vec;
 
-		{
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), m_TranslationB);
-			glm::mat4 mvp = m_Proj * m_View * model;
+			std::cout << "X-value: " << pos.x << " " << "Y-value: " << pos.y << " " << "Z-value: " << pos.w << " " << "W-value: " << pos.z << std::endl;
 
 			m_Shader->Bind();
 			m_Shader->SetUniformMat4f("u_MVP", mvp);
@@ -91,12 +87,11 @@ namespace test {
 
 	}
 
-	void TestTexture2D::OnImGuiRender()
+	void TestSquare2D::OnImGuiRender()
 	{
-		ImGui::SliderFloat3("Translation A", &m_TranslationA.x, 0.0f, 960.0f);
-		ImGui::SliderFloat3("Translation B", &m_TranslationB.x, 0.0f, 960.0f);
-		
+		ImGui::SliderFloat3("Translation A", &m_TranslationA.x, -3.0f, 3.0f);
+
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	}
-	
+
 }

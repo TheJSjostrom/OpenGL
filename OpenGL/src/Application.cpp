@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
- 
+
 #include "Renderer.h"
 
 #include "glm/glm.hpp"
@@ -13,11 +13,14 @@
 
 #include "tests/TestClearColor.h"
 #include "tests/TestTexture2D.h"
+#include "tests/TestCube3D.h"
+#include "tests/TestSquare2D.h"
+#include "tests/TestCubes.h"
 
 int main(void)
 {
     GLFWwindow* window;
-
+    
     /* Initialize the library */
     if (!glfwInit())
         return -1;
@@ -59,9 +62,12 @@ int main(void)
         test::TestMenu* testMenu = new test::TestMenu(currentTest);
         currentTest = testMenu;
         
-        // Adding testse
+        // Adding test
         testMenu->RegisterTest<test::TestClearColor>("Clear Color");
         testMenu->RegisterTest<test::TestTexture2D>("2D Texture");
+        testMenu->RegisterTest<test::TestCube3D>("3D Cube");
+        testMenu->RegisterTest<test::TestSquare2D>("2D Square");
+        testMenu->RegisterTest<test::TestCubes>("Cubes");
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -75,7 +81,7 @@ int main(void)
             if (currentTest)
             {
                 currentTest->OnUpdate(0.0f);
-                currentTest->OnRender();
+                currentTest->OnRender(window);
                 ImGui::Begin("Test");
                 if (currentTest != testMenu && ImGui::Button("<-"))
                 {

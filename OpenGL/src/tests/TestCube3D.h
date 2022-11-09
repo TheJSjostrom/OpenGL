@@ -11,11 +11,11 @@
 
 namespace test {
 
-	class TestTexture2D : public Test
+	class TestCube3D: public Test
 	{
 	public:
-		TestTexture2D();
-		~TestTexture2D();
+		TestCube3D();
+		~TestCube3D();
 
 		void OnUpdate(float deltaTime) override;
 		void OnRender(GLFWwindow* window) override;
@@ -28,8 +28,9 @@ namespace test {
 		std::unique_ptr<Shader> m_Shader;
 		std::unique_ptr<Texture> m_Texture;
 
-		glm::mat4 m_Proj, m_View;
-		glm::vec3 m_TranslationA, m_TranslationB, m_Scale;
+		glm::vec3 m_TranslationA;
+
+		float m_ClearColor[4];
 	};
 
 }

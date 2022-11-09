@@ -11,15 +11,18 @@
 
 namespace test {
 
-	class TestTexture2D : public Test
+	class TestCubes : public Test
 	{
 	public:
-		TestTexture2D();
-		~TestTexture2D();
+		TestCubes();
+		~TestCubes();
 
 		void OnUpdate(float deltaTime) override;
 		void OnRender(GLFWwindow* window) override;
 		void OnImGuiRender() override;
+
+		void processInput(GLFWwindow* window);
+		void calcFrame();
 
 	private:
 		std::unique_ptr<VertexArray> m_VAO;
@@ -28,8 +31,18 @@ namespace test {
 		std::unique_ptr<Shader> m_Shader;
 		std::unique_ptr<Texture> m_Texture;
 
-		glm::mat4 m_Proj, m_View;
-		glm::vec3 m_TranslationA, m_TranslationB, m_Scale;
+		glm::mat4 m_Proj;
+		glm::vec3 m_TranslationA;
+		glm::vec3 cubePositions[10];
+
+		glm::vec3 m_CameraPos;
+		glm::vec3 m_CameraFront;
+		glm::vec3 m_CameraUp;
+
+
+		float m_DeltaTime;	
+		float m_LastFrame;
+		float m_ClearColor[4];
 	};
 
 }

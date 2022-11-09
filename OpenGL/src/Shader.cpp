@@ -1,10 +1,12 @@
 #include "Shader.h"
 
 #include <GL/glew.h>
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
+
 #include "Renderer.h"
 
 Shader::Shader(const std::string& filepath)
@@ -54,7 +56,7 @@ ShaderProgramSource Shader::ParseShader(const std::string& filepath)
     unsigned int id = glCreateShader(type); // Create Shader
     const char* src = source.c_str(); // Change data type from "string" to "const char*"
     glShaderSource(id, 1, &src, nullptr); // Put source code into shader
-    glCompileShader(id); // Compile shader
+    glCompileShader(id); // Compile the source code
 
     // Eventhandler
     int resault;
@@ -62,9 +64,9 @@ ShaderProgramSource Shader::ParseShader(const std::string& filepath)
     if (resault == GL_FALSE)
     {
         int length;
-        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-        char* message = (char*)alloca(length * sizeof(char));
-        glGetShaderInfoLog(id, length, &length, message);
+        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length); // Get the length of Shader's information log message.
+        char* message = (char*)alloca(length * sizeof(char)); // Store the information log message in this variable
+        glGetShaderInfoLog(id, length, &length, message); // Get the Shader's information log message
         std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << std::endl;
         std::cout << message << std::endl;
         glDeleteShader(id);
