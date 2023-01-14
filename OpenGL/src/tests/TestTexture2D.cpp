@@ -13,44 +13,44 @@
 namespace test {
 
 	TestTexture2D::TestTexture2D()
-		: m_Proj(glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f)),
-		m_View(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0))),
-		m_TranslationA(200, 200, 0),
-		m_TranslationB(400, 200, 0)
+		: m_Shader("res/shaders/Basic.shader"),
+		m_Shader2("res/shaders/Basic.shader2")
 	{
+		
+ 
 
-		float positions[] = {
-		   -50.0f, -50.0f,  0.0f, 0.0f,
-		    50.0f, -50.0f,  1.0f, 0.0f,
-		    50.0f,  50.0f,  1.0f, 1.0f,
-		   -50.0f,  50.0f,  0.0f, 1.0f,
+		m_Shader.Bind();
+ 
+		float vertices[] = {
+			 
+			// positions         // colors 
+			// First triangle
+			 0.0f, 0.5f, 0.0f,   1.0f, 0.0f, 0.0f,  
+			-0.15f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,   
+			 0.15f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+
+			 // Second triangle
+			-0.15f,0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
+			-0.3f,-0.5f, 0.0f,   0.0f, 1.0f, 0.0f,
+			 0.0f,-0.5f, 0.0f,   0.0f, 0.0f, 1.0f,
+
+			 // Third triangle
+			 0.15f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+			 0.0f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
+			 0.3f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,
 		};
 
-		unsigned int indicies[] = {
-			0, 1, 2,
-			2, 3, 0
-		};
-
-		GLCall(glEnable(GL_BLEND));
-		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-
-		m_VAO = std::make_unique<VertexArray>();
-
-		m_VertexBuffer = std::make_unique<VertexBuffer>(positions, 4 * 5 * sizeof(float));
-		VertexBufferLayout layout;
-		layout.Push<float>(2);
-		layout.Push<float>(2);
-		m_VAO->AddBuffer(*m_VertexBuffer, layout);
-
-		m_IndexBuffer = std::make_unique<IndexBuffer>(indicies, 6);
-
-		m_Shader = std::make_unique<Shader>("res/shaders/Basic.shader");
-		m_Shader->Bind();
-		m_Shader->SetUniform4f("u_Color", 0.0f, 0.3f, 0.8f, 1.0f);
-
-		m_Texture = std::make_unique<Texture>("res/textures/wooden.jpg");
-		m_Shader->SetUniform1i("u_Texture", 0);
-
+		// Create Vertex Buffer Object and Vertex Array Object
+		GLCall(glGenBuffers(3, m_Buffer));
+		
+		// First triangle setup
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[0]));
+		GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW));
+		
+		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0));
+		GLCall(glEnableVertexAttribArray(0));
+		GLCall(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float))));
+		GLCall(glEnableVertexAttribArray(1));
 	}
 
 	TestTexture2D::~TestTexture2D()
@@ -62,40 +62,65 @@ namespace test {
 	}
 
 	void TestTexture2D::OnRender(GLFWwindow* window)
-	{
-		GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
-		GLCall(glClear(GL_COLOR_BUFFER_BIT));
-
-		Renderer renderer;
-
-		m_Texture->Bind();
-
-		{
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), m_TranslationA);
-			glm::mat4 mvp = m_Proj * m_View * model;
+	{	
 	
-			m_Shader->Bind();
-			m_Shader->SetUniformMat4f("u_MVP", mvp);
-			renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+		const float i = 0.005; // The value who changing m_XValue each frame.
+
+		// Keep track of
+		const float XCoord = -0.3; // Store the vertex position x coordinate (Second triangle's Second vertex)
+		const float XCoord2 = 0.3; // Store the vertex position x coordinate (Third triangle's third vertex)
+		float LXValue = m_XValue + XCoord;
+		float RXValue = m_XValue + XCoord2;
+
+		// Switch button
+		if (RXValue >= 1) {
+			m_Switch = 0;
+		} else if (LXValue <= -1) {
+			m_Switch = 1;
 		}
 
-		{
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), m_TranslationB);
-			glm::mat4 mvp = m_Proj * m_View * model;
+		// Adding x value
+		if (m_Switch == 1) {
+			m_XValue += i;
+		}
+		else if (m_Switch == 0) {
+			m_XValue -= i;
+		}
+		
+		m_Shader.SetUniform1f("u_Value", m_XValue);
 
-			m_Shader->Bind();
-			m_Shader->SetUniformMat4f("u_MVP", mvp);
-			renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+		const float TopVertPosXVal = 0.5;
+		const float BotVertPosXVal = -0.5;
+		float RXValue2 = m_YValue + TopVertPosXVal;
+		float LXValue2 = m_YValue + BotVertPosXVal;
+
+		if (RXValue2 >= 1) {
+			m_Switch2 = 0;
+		}
+		else if (LXValue2 <= -1) {
+			m_Switch2 = 1;
 		}
 
+		if (m_Switch2 == 1) {
+			m_YValue += i;
+		}
+		else if (m_Switch2 == 0) {
+			m_YValue -= i;
+		}
+
+		m_Shader.SetUniform1f("u_Value2", m_YValue);
+
+		float timeValue3 = glfwGetTime();
+		float XValue3 = (cos(timeValue3) / 2.0f) + 0.5;
+		m_Shader.SetUniform1f("u_Value3", XValue3);
+
+		// Draw first triangle
+		GLCall(glDrawArrays(GL_TRIANGLES, 0, 9));
 
 	}
 
 	void TestTexture2D::OnImGuiRender()
-	{
-		ImGui::SliderFloat3("Translation A", &m_TranslationA.x, 0.0f, 960.0f);
-		ImGui::SliderFloat3("Translation B", &m_TranslationB.x, 0.0f, 960.0f);
-		
+	{	
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	}
 	

@@ -20,9 +20,7 @@ namespace test {
 		void OnUpdate(float deltaTime) override;
 		void OnRender(GLFWwindow* window) override;
 		void OnImGuiRender() override;
-
-		void processInput(GLFWwindow* window);
-		void calcFrame();
+	 
 
 	private:
 		std::unique_ptr<VertexArray> m_VAO;
@@ -31,17 +29,8 @@ namespace test {
 		std::unique_ptr<Shader> m_Shader;
 		std::unique_ptr<Texture> m_Texture;
 
-		glm::mat4 m_Proj;
-		glm::vec3 m_TranslationA;
-		glm::vec3 cubePositions[10];
+		glm::vec3 m_CubePositions[10];
 
-		glm::vec3 m_CameraPos;
-		glm::vec3 m_CameraFront;
-		glm::vec3 m_CameraUp;
-
-
-		float m_DeltaTime;	
-		float m_LastFrame;
 		float m_ClearColor[4];
 	};
 

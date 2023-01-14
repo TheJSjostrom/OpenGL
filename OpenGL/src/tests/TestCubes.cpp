@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "Camera.h"
 #include "Renderer.h"
 #include "VertexBufferLayout.h"
 
@@ -11,18 +12,26 @@
 
 #include "imgui/imgui.h"
 
+void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void processInput(GLFWwindow* window);
+void calculateDeltatime();
+
+// camera
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f);
+float lastX = 960 / 2.0f;
+float lastY = 540 / 2.0f;
+bool firstMouse = true;
+
+// timing
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
+
 namespace test {
 
 	TestCubes::TestCubes() :
-		m_Proj(glm::perspective(glm::radians(50.0f), 960.0f / 540.0f, 0.1f, 100.0f)),
 		m_ClearColor{ 0.2f, 0.3f, 0.8f, 1.0f },
-		m_TranslationA(0.0f, 0.0f, 3.0f),
-		m_CameraPos(glm::vec3(0.0f, 0.0f, 3.0f)),
-	    m_CameraFront(glm::vec3(0.0f, 0.0f, -1.0f)),
-	    m_CameraUp(glm::vec3(0.0f, 1.0f, 0.0f)),
-		m_DeltaTime(0.0f),
-	    m_LastFrame(0.0f),
-		cubePositions{
+		m_CubePositions{
 			glm::vec3(0.0f,  0.0f,  0.0f),
 			glm::vec3(2.0f,  5.0f, -15.0f),
 			glm::vec3(-1.5f, -2.2f, -2.5f),
@@ -33,11 +42,8 @@ namespace test {
 			glm::vec3(1.5f,  2.0f, -2.5f),
 			glm::vec3(1.5f,  0.2f, -1.5f),
 			glm::vec3(-1.3f,  1.0f, -1.5f) }
-
 	{
-
-
-
+ 
 		float positions[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -86,6 +92,7 @@ namespace test {
 			0, 1, 2,
 			2, 3, 0
 		};
+
 		glEnable(GL_DEPTH_TEST);
 
 		GLCall(glEnable(GL_BLEND));
@@ -108,6 +115,7 @@ namespace test {
 		m_Texture = std::make_unique<Texture>("res/textures/wooden.jpg");
 		m_Shader->SetUniform1i("u_Texture", 0);
 
+		 
 	}
 
 	TestCubes::~TestCubes()
@@ -120,10 +128,13 @@ namespace test {
 
 	void TestCubes::OnRender(GLFWwindow* window)
 	{
-		calcFrame();
-
+		calculateDeltatime();
 		processInput(window);
-
+	 
+		glfwSetScrollCallback(window, scroll_callback);
+		glfwSetCursorPosCallback(window, mouse_callback);
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	 
 		GLCall(glClearColor(m_ClearColor[0], m_ClearColor[1], m_ClearColor[2], m_ClearColor[3]));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -131,58 +142,80 @@ namespace test {
 
 		m_Texture->Bind();
 
-		// glm::mat4 view = glm::translate(glm::mat4(1.0f), m_TranslationA);
-		glm::mat4 view;
-		view = glm::lookAt(m_CameraPos, m_CameraPos + m_CameraFront, m_CameraUp);
+		glm::mat4 proj = glm::perspective(glm::radians(camera.m_Zoom), 960.0f / 540.0f, 0.1f, 100.0f);
+
+		glm::mat4 view = camera.GetViewMatrix();
 		 
-	
+		// Rendering boxes
 		for (unsigned int i = 0; i < 10; i++)
 		{
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
+			model = glm::translate(model, m_CubePositions[i]);
 			float angle = 20.0f * i;
 			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 		
-			glm::mat4 mvp = m_Proj * view * model;
+			glm::mat4 mvp = proj * view * model;
 			m_Shader->Bind();
 			m_Shader->SetUniformMat4f("u_MVP", mvp);
 			renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
 		}
-
+		
 
 	}
 
 	void TestCubes::OnImGuiRender()
 	{
-		ImGui::ColorEdit4("Select color", m_ClearColor);
-
-		ImGui::SliderFloat2("Change X & Y postion A", &m_TranslationA.x, -10.0f, 10.0f);
-		ImGui::SliderFloat("Zoom in & out A", &m_TranslationA.z, 10.0f, -10.0f);
 
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	}
 
-	void TestCubes::processInput(GLFWwindow* window)
+}
+
+void calculateDeltatime()
+{
+	float currentFrame = static_cast<float>(glfwGetTime());
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+ 
+}
+
+void processInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(RIGHT, deltaTime);
+}
+
+void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
+{
+	float xpos = static_cast<float>(xposIn);
+	float ypos = static_cast<float>(yposIn);
+	 
+	if (firstMouse)
 	{
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-			glfwSetWindowShouldClose(window, true);
-
-		float cameraSpeed = static_cast<float>(2.5 * m_DeltaTime);
-
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			m_CameraPos += cameraSpeed * m_CameraFront;
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			m_CameraPos -= cameraSpeed * m_CameraFront;
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			m_CameraPos -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * cameraSpeed;
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			m_CameraPos += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * cameraSpeed;
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
 	}
+ 
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+ 
+	lastX = xpos;
+	lastY = ypos;
+	 
+	camera.ProcessMouseMovement(xoffset, yoffset);
+}
 
-	void TestCubes::calcFrame()
-	{
-		float currentFrame = static_cast<float>(glfwGetTime());
-		m_DeltaTime = currentFrame - m_LastFrame;
-		m_LastFrame = currentFrame;
-	}
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	camera.ProcessMouseScroll(static_cast<float>(yoffset));
 }

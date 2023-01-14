@@ -22,14 +22,16 @@ namespace test {
 		void OnImGuiRender() override;
 
 	private:
-		std::unique_ptr<VertexArray> m_VAO;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<Texture> m_Texture;
+		Shader m_Shader, m_Shader2;
+	 
+		unsigned int m_Buffer[3];	
 
-		glm::mat4 m_Proj, m_View;
-		glm::vec3 m_TranslationA, m_TranslationB, m_Scale;
+		float m_XValue = 0;
+		float m_YValue = 0;
+
+		int m_Switch2 = 0;
+		int m_Switch = 1;
+
 	};
 
 }

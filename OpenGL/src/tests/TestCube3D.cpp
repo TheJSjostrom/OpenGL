@@ -98,7 +98,9 @@ namespace test {
 	void TestCube3D::OnRender(GLFWwindow* window)
 	{
 
-		GLCall(glClearColor(m_ClearColor[0], m_ClearColor[1], m_ClearColor[2], m_ClearColor[3]));
+		float timeValue = glfwGetTime();
+		float greenValue = sin(timeValue) / 2.0f + 0.5f;
+		GLCall(glClearColor(m_ClearColor[0], greenValue, m_ClearColor[2], m_ClearColor[3]));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		Renderer renderer;
@@ -106,8 +108,45 @@ namespace test {
 		m_Texture->Bind();
 
 		{
-			glm::mat4 model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-			glm::mat4 view = glm::translate(glm::mat4(1.0f), m_TranslationA);
+			// Camera transformation matrix
+			const float radius = 5.0f;
+			const glm::vec3 camDir = glm::vec3(0.0, 0.0, 0.0);
+			const glm::vec3 camDirUp = glm::vec3(0.0, 1.0, 0.0);
+			glm::vec3 camPos;
+
+			camPos.x = sin(glfwGetTime()) * radius;
+			camPos.y = 0;
+			camPos.z = cos(glfwGetTime()) * radius;
+			glm::mat4 view;
+			view = glm::lookAt(camPos, camDir, camDirUp);
+
+			// Object transformation matrix
+			float angle = (float)glfwGetTime() * 7 * glm::radians(50.0f);
+			const glm::vec3 rotationAxis = glm::vec3(0.0f, 1.0f, 0.0f);
+			glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, angle, rotationAxis);
+		 
+			// Projection transformation matrix
+			glm::mat4 proj = glm::perspective(glm::radians(50.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+			// Creating mvp matrix
+			glm::mat4 mvp = proj * view * model;
+
+			m_Shader->Bind();
+			m_Shader->SetUniformMat4f("u_MVP", mvp);
+			renderer.Draw(*m_VAO, *m_IndexBuffer, *m_Shader);
+		}
+
+		{ 
+			const float radius = 5.0f;
+			float camX = sin(glfwGetTime()) * radius;
+			float camZ = cos(glfwGetTime()) * radius;
+			glm::mat4 view;
+			view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+
+			glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(1.75f, 0.0f, 0.0f));
+			model = glm::rotate(model, (float)glfwGetTime() * 7 * glm::radians(50.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			 
 			glm::mat4 proj = glm::perspective(glm::radians(50.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 			glm::mat4 mvp = proj * view * model;
 
