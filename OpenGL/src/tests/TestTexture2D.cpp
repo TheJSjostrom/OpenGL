@@ -10,47 +10,220 @@
 
 #include "imgui/imgui.h"
 
+#include "stb_image/stb_image.h"
+
 namespace test {
 
 	TestTexture2D::TestTexture2D()
 		: m_Shader("res/shaders/Basic.shader"),
 		m_Shader2("res/shaders/Basic.shader2")
 	{
-		
- 
-
-		m_Shader.Bind();
  
 		float vertices[] = {
-			 
-			// positions         // colors 
-			// First triangle
-			 0.0f, 0.5f, 0.0f,   1.0f, 0.0f, 0.0f,  
-			-0.15f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,   
-			 0.15f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+			 // POSITION   ---   COLOR
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-			 // Second triangle
-			-0.15f,0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
-			-0.3f,-0.5f, 0.0f,   0.0f, 1.0f, 0.0f,
-			 0.0f,-0.5f, 0.0f,   0.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-			 // Third triangle
-			 0.15f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,
-			 0.0f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
-			 0.3f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 		};
 
-		// Create Vertex Buffer Object and Vertex Array Object
-		GLCall(glGenBuffers(3, m_Buffer));
-		
-		// First triangle setup
+		float vertices2[] = {
+			// POSITION   ---   COLOR
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+		};
+
+		float vertices3[] = {
+		   -0.5f, 0.0f, -0.5f, 1.0f, 0.0f, 0.0f,
+		   -0.5f, 0.0f,  0.5f, 1.0f, 0.0f, 0.0f,
+			0.5f, 0.0f,  0.5f, 1.0f, 0.0f, 0.0f,
+			0.5f, 0.0f, -0.5f, 1.0f, 0.0f, 0.0f,
+		   -0.5f, 0.0f, -0.5f, 1.0f, 0.0f, 0.0f,
+		    0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
+
+		   -0.5f, 0.0f,-0.5f, 0.0f, 1.0f, 0.0f,
+		   -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		    0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		   -0.5, 0.0f, 0.5f, 0.0f, 1.0f, 0.0f,
+		   -0.5, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		    0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+
+
+			-0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+			0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+
+			0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
+			0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+            0.5f, 0.0F, -0.5f, 1.0f, 0.0f, 0.0f,
+			0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+
+			0.5f, 0.0f,-0.5f, 1.0f, 1.0f, 0.0f,
+			0.0f, 0.0f,-0.5f, 1.0f, 1.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+		   -0.5f, 0.0f,-0.5f, 1.0f, 1.0f, 0.0f,
+			0.0f, 0.0f,-0.5f, 1.0f, 1.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+		};
+
+		m_Shader.Bind();
+
+		// Create Vertex Buffer Objects & Vertex Array OBject
+		GLCall(glGenVertexArrays(4, m_VAO));	
+		GLCall(glGenBuffers(4, m_Buffer));
+
+		// Boxes
+		GLCall(glBindVertexArray(m_VAO[0]));
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[0]));
 		GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW));
-		
+		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0));
+		GLCall(glEnableVertexAttribArray(0));
+		GLCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))));
+		GLCall(glEnableVertexAttribArray(1));
+
+		// floor
+		GLCall(glBindVertexArray(m_VAO[1]));
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[1]));
+		GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW));
+		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0));
+		GLCall(glEnableVertexAttribArray(0));
+		GLCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))));
+		GLCall(glEnableVertexAttribArray(1));
+
+		// Pyramid
+		GLCall(glBindVertexArray(m_VAO[2]));
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[2]));
+		GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices3), vertices3, GL_STATIC_DRAW));
 		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0));
 		GLCall(glEnableVertexAttribArray(0));
 		GLCall(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float))));
 		GLCall(glEnableVertexAttribArray(1));
+
+		 // Wooden texture
+		glGenTextures(1, &m_texture);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
+		// set the texture wrapping/filtering options (on the currently bound texture object)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// load and generate the texture
+		int width, height, nrChannels;
+		unsigned char* data = stbi_load("res/textures/wooden.jpg", &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
+		else
+		{
+			std::cout << "Failed to load texture" << std::endl;
+		}
+		stbi_image_free(data);
+
+		// Grass texture
+		glGenTextures(1, &m_texture2);
+		glBindTexture(GL_TEXTURE_2D, m_texture2);
+		// set the texture wrapping/filtering options (on the currently bound texture object)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// load and generate the texture
+		data = stbi_load("res/textures/grass3.jpg", &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
+		else
+		{
+			std::cout << "Failed to load texture" << std::endl;
+		}
+		stbi_image_free(data);
+
+		glActiveTexture(GL_TEXTURE0);
 	}
 
 	TestTexture2D::~TestTexture2D()
@@ -64,59 +237,118 @@ namespace test {
 	void TestTexture2D::OnRender(GLFWwindow* window)
 	{	
 	
-		const float i = 0.005; // The value who changing m_XValue each frame.
+		glEnable(GL_DEPTH_TEST); 
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		glm::mat4 view = glm::mat4(1.0f);
+		glm::mat4 proj = glm::mat4(1.0f);
 
-		// Keep track of
-		const float XCoord = -0.3; // Store the vertex position x coordinate (Second triangle's Second vertex)
-		const float XCoord2 = 0.3; // Store the vertex position x coordinate (Third triangle's third vertex)
-		float LXValue = m_XValue + XCoord;
-		float RXValue = m_XValue + XCoord2;
-
-		// Switch button
-		if (RXValue >= 1) {
+		// Camera movement settings
+		const float radius = 10.0f;
+		float camX = sin(glfwGetTime()) * radius;
+		float camZ = cos(glfwGetTime()) * radius;
+		view = glm::lookAt(glm::vec3(camX, 3.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+		//view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		//view = glm::translate(view, glm::vec3(0.0f,  0.0f, -15.0f)); // Camera position
+		//view = glm::rotate(view, glm::radians(32.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		// -------------------------------------------------------------------------------------------
+	   
+		// Projection Matrix
+		proj = glm::perspective(glm::radians(45.0f), (float)960 / (float)540, 0.1f, 100.0f);
+		
+		if (m_XValue >= 1) {
 			m_Switch = 0;
-		} else if (LXValue <= -1) {
+		}
+		else if (m_XValue <= -1) {
 			m_Switch = 1;
 		}
 
-		// Adding x value
 		if (m_Switch == 1) {
-			m_XValue += i;
+			m_XValue += 0.01f;
 		}
 		else if (m_Switch == 0) {
-			m_XValue -= i;
+			m_XValue -= 0.01f;
 		}
+		// Drawing boxes
+		// boxes new positions
 		
-		m_Shader.SetUniform1f("u_Value", m_XValue);
-
-		const float TopVertPosXVal = 0.5;
-		const float BotVertPosXVal = -0.5;
-		float RXValue2 = m_YValue + TopVertPosXVal;
-		float LXValue2 = m_YValue + BotVertPosXVal;
-
-		if (RXValue2 >= 1) {
+ 
+		float z = m_x * m_x;
+		
+		if (m_x >= 3) {
 			m_Switch2 = 0;
 		}
-		else if (LXValue2 <= -1) {
+		else if (m_x <= -3) {
 			m_Switch2 = 1;
-		}
+			}
 
 		if (m_Switch2 == 1) {
-			m_YValue += i;
+			m_x += 0.05f;
 		}
 		else if (m_Switch2 == 0) {
-			m_YValue -= i;
+			m_x -= 0.05f;
+		}
+		const float cameraSpeed = 0.05f; // adjust accordingly
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			cameraPos += cameraSpeed * cameraFront;
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			cameraPos -= cameraSpeed * cameraFront;
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+
+		const glm::vec3 boxPos[] = {
+			glm::vec3(m_x, 0.5f, z),
+			glm::vec3(-2.0f, 0.5f, 0.0f),
+			glm::vec3(-2.0f, 0.5f,-2.0f),
+			glm::vec3(0.0f, 0.5f,-2.0f),
+			glm::vec3(2.0f, 0.5f, 0.0f),
+			glm::vec3(2.0f, 0.5f,-2.0f),
+			glm::vec3(0.0f, 0.5f,-4.0f),
+			glm::vec3(-2.0f, 0.5f,-4.0f),
+			glm::vec3(2.0f, 0.5f,-4.0f),
+			glm::vec3(-4.5f, 0.5f, 4.5f),
+			glm::vec3(-4.5f, 1.5f, 4.5f),
+			glm::vec3(-3.5f, 0.5f, 4.5f),
+			glm::vec3(-4.5f, 0.5f, 3.5f)
+		};
+		m_Shader.Bind();
+		m_Shader.SetUniform1i("u_Texture", 0);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
+		for (int i = 0; i < 13; i++) {
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, boxPos[i]);
+			glm::mat4 mvp = proj * view * model;
+			m_Shader.SetUniformMat4f("u_MVP", mvp);
+			GLCall(glBindVertexArray(m_VAO[0]));
+			GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 		}
 
-		m_Shader.SetUniform1f("u_Value2", m_YValue);
+		 
+		//Draw floor
+		m_Shader.Bind();
+		m_Shader.SetUniform1i("u_Texture", 0);
+		glBindTexture(GL_TEXTURE_2D, m_texture2);
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, -0.25f, 0.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
+		glm::mat4 mvp = proj * view * model;
+		m_Shader.SetUniformMat4f("u_MVP", mvp);
+		GLCall(glBindVertexArray(m_VAO[1]));
+		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 
-		float timeValue3 = glfwGetTime();
-		float XValue3 = (cos(timeValue3) / 2.0f) + 0.5;
-		m_Shader.SetUniform1f("u_Value3", XValue3);
-
-		// Draw first triangle
-		GLCall(glDrawArrays(GL_TRIANGLES, 0, 9));
-
+		// Draw pyramid
+		m_Shader2.Bind();
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 2.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+		mvp = proj * view * model;
+		m_Shader.SetUniformMat4f("u_MVP", mvp);
+		GLCall(glBindVertexArray(m_VAO[2]));
+		GLCall(glDrawArrays(GL_TRIANGLES, 0, 30));
+		
 	}
 
 	void TestTexture2D::OnImGuiRender()

@@ -24,14 +24,19 @@ namespace test {
 	private:
 		Shader m_Shader, m_Shader2;
 	 
-		unsigned int m_Buffer[3];	
-
+		unsigned int m_Buffer[5], m_VAO[5];
+		unsigned int texture[2];
 		float m_XValue = 0;
-		float m_YValue = 0;
-
+		int m_Switch = 0;
 		int m_Switch2 = 0;
-		int m_Switch = 1;
+		float m_XPos = -30.0f;
+		float m_x = 0;
+		unsigned int m_texture;
+		unsigned int m_texture2;
 
+		glm::vec3 cameraPos = glm::vec3(0.0f, 0.5f, 3.0f);
+		glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+		glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	};
 
 }

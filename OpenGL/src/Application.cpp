@@ -17,6 +17,11 @@
 #include "tests/TestSquare2D.h"
 #include "tests/TestCubes.h"
 
+// settings
+const unsigned int SCR_WIDTH = 960;
+const unsigned int SCR_HEIGHT = 540;
+const char* NAME = "Uprise Engine";
+
 int main(void)
 {
  
@@ -31,7 +36,7 @@ int main(void)
    // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(960, 540, "Uprise Engine", NULL, NULL);
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, NAME, NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -73,10 +78,9 @@ int main(void)
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
-            GLCall(glClearColor(0.06f, 0.063f, 0.078f, 1.0f));
-
+            
             /* Render here */
-            renderer.Clear();
+            renderer.Clear(0.06f, 0.063f, 0.078f, 1.0f);
 
             ImGui_ImplGlfwGL3_NewFrame(); // New imgui frame
             if (currentTest)
