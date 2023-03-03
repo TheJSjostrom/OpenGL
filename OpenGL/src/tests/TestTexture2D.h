@@ -33,6 +33,8 @@ namespace test {
 		float m_x = 0;
 		unsigned int m_texture;
 		unsigned int m_texture2;
+		unsigned int m_texture3;
+		unsigned int m_texture4;
 
 		glm::vec3 cameraPos = glm::vec3(0.0f, 0.5f, 3.0f);
 		glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
