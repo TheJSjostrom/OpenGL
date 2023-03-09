@@ -16,7 +16,8 @@ namespace test {
 
 	TestTexture2D::TestTexture2D()
 		: m_Shader("res/shaders/Basic.shader"),
-		m_Shader2("res/shaders/Basic.shader2")
+		m_Shader2("res/shaders/Basic.shader2"),
+		m_Shader3("res/shaders/Basic.shader3")
 	{
 		// Boxes vertex data
 		float vertices[] = {
@@ -110,52 +111,8 @@ namespace test {
 			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 		};
 
-		// Pyramid vertex data
+
 		float vertices3[] = {
-		 // POSITION  ------- COLOR
-		   -0.5f, 0.0f,-0.5f, 1.0f, 0.0f, 0.0f,
-		   -0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
-			0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
-			0.5f, 0.0f,-0.5f, 1.0f, 0.0f, 0.0f,
-		   -0.5f, 0.0f,-0.5f, 1.0f, 0.0f, 0.0f,
-		    0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
-
-		   -0.5f, 0.0f,-0.5f, 0.0f, 1.0f, 0.0f,
-		   -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		    0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		   -0.5f, 0.0f, 0.5f, 0.0f, 1.0f, 0.0f,
-		   -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		    0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-
-		   -0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
-			0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
-			0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-			0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
-			0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,
-			0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-
-			0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
-			0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-            0.5f, 0.0F,-0.5f, 1.0f, 0.0f, 0.0f,
-			0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-
-			0.5f, 0.0f,-0.5f, 1.0f, 1.0f, 0.0f,
-			0.0f, 0.0f,-0.5f, 1.0f, 1.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-		   -0.5f, 0.0f,-0.5f, 1.0f, 1.0f, 0.0f,
-			0.0f, 0.0f,-0.5f, 1.0f, 1.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-		};
-
-		float vertices4[] = {
-			0.0f, 0.5f, 0.0f, 0.5f, 1.0f,
-		   -0.5f,-0.5f, 0.0f, 0.0f, 0.0f,
-		    0.5f,-0.5f, 0.0f, 1.0f, 0.0f
-		};
-
-		float vertices5[] = {
 			// POSITION   ------   TEXT. COORDINATE
 			  -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 			   0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -200,9 +157,53 @@ namespace test {
 			  -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 		};
 
+		float vertices4[] = {
+			-0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f, -0.5f,
+			 0.5f,  0.5f, -0.5f,
+			 0.5f,  0.5f, -0.5f,
+			-0.5f,  0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+
+			-0.5f, -0.5f,  0.5f,
+			 0.5f, -0.5f,  0.5f,
+			 0.5f,  0.5f,  0.5f,
+			 0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
+
+			-0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+
+			 0.5f,  0.5f,  0.5f,
+			 0.5f,  0.5f, -0.5f,
+			 0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f,  0.5f,
+			 0.5f,  0.5f,  0.5f,
+
+			-0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f,  0.5f,
+			 0.5f, -0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
+			-0.5f, -0.5f, -0.5f,
+
+			-0.5f,  0.5f, -0.5f,
+			 0.5f,  0.5f, -0.5f,
+			 0.5f,  0.5f,  0.5f,
+			 0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f, -0.5f,
+		};
+
 		// Create Vertex Buffer Objects & Vertex Array Object
-		GLCall(glGenVertexArrays(5, m_VAO));	
-		GLCall(glGenBuffers(5, m_Buffer));
+		GLCall(glGenVertexArrays(4, m_VAO));	
+		GLCall(glGenBuffers(4, m_Buffer));
 
 
 		// Boxes Vertex Data ------------------------------------------------------------------------------------
@@ -225,38 +226,34 @@ namespace test {
 		GLCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)))); // Texture Coordinate
 		GLCall(glEnableVertexAttribArray(1));
 		// -----------------------------------------------------------------------------------------------------
-		
 
-		// Pyramid Vertex Data----------------------------------------------------------------------------------
+		
+		// Wall Vertex Data----------------------------------------------------------------------------------
 		GLCall(glBindVertexArray(m_VAO[2]));
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[2]));
 		GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices3), vertices3, GL_STATIC_DRAW));
-		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0)); // Vertex Position
+		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0)); // Vertex Position
 		GLCall(glEnableVertexAttribArray(0));
-		GLCall(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)))); // Texture Coordinate
+		GLCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)))); // Texture Coordinate
 		GLCall(glEnableVertexAttribArray(1));
-		// ------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 
-		// triangle Vertex Data----------------------------------------------------------------------------------
+		// Cube Vertex Data -------------------------------------------------------------------------------------------
 		GLCall(glBindVertexArray(m_VAO[3]));
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[3]));
 		GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices4), vertices4, GL_STATIC_DRAW));
-		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0)); // Vertex Position
+		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0)); // Vertex Position
 		GLCall(glEnableVertexAttribArray(0));
-		GLCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)))); // Texture Coordinate
-		GLCall(glEnableVertexAttribArray(1));
-		// --------------------------------------------------------------------------------------------------------
+		// ------------------------------------------------------------------------------------------------------------
+		 
 		
-		// triangle Vertex Data----------------------------------------------------------------------------------
+		// Light Cube Vertex Data ------------------------------------------------------------------------------------
 		GLCall(glBindVertexArray(m_VAO[4]));
-		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[4]));
-		GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices5), vertices5, GL_STATIC_DRAW));
-		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0)); // Vertex Position
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[3]));
+		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0)); // Vertex Position
 		GLCall(glEnableVertexAttribArray(0));
-		GLCall(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)))); // Texture Coordinate
-		GLCall(glEnableVertexAttribArray(1));
-		// --------------------------------------------------------------------------------------------------------
+		// ------------------------------------------------------------------------------------------------------------
 
 		// TEXTURES
 		// Wooden texture -----------------------------------------------------------------------------------------
@@ -360,21 +357,25 @@ namespace test {
 
 	void TestTexture2D::OnRender(GLFWwindow* window)
 	{	
-	
+		
+		// Clear color buffer -------------------------------
 		glEnable(GL_DEPTH_TEST); 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+		// ----------------------------------------------------  
+
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 proj = glm::mat4(1.0f);
 
+		 
 		// Camera movement settings
-		const float radius = 10.0f;
+		const float radius = 2.0f;
 		float camX = sin(glfwGetTime()) * radius;
 		float camZ = cos(glfwGetTime()) * radius;
-		view = glm::lookAt(glm::vec3(camX, 3.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+		view = glm::lookAt(glm::vec3(0.0f, 3.0f, 5.0f), glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0, 1.0, 0.0));
+		//view = glm::lookAt(glm::vec3(camX, 3.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 		//view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		//view = glm::translate(view, glm::vec3(0.0f,  0.0f, -15.0f)); // Camera position
-		//view = glm::rotate(view, glm::radians(32.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//view = glm::translate(view, glm::vec3(-4.0f, 0.0f, 0.0f)); // Camera position
+		//view = glm::rotate(view, glm::radians(-45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		// -------------------------------------------------------------------------------------------
 	   
 		// Projection Matrix
@@ -423,26 +424,27 @@ namespace test {
 
 		// Draw boxes -------------------------------------
 		const glm::vec3 boxPos[] = {
-			glm::vec3(m_x, 0.5f, z),
-			glm::vec3(-2.0f, 0.5f, 0.0f),
-			glm::vec3(-2.0f, 0.5f,-2.0f),
-			glm::vec3(0.0f, 0.5f,-2.0f),
-			glm::vec3(2.0f, 0.5f, 0.0f),
-			glm::vec3(2.0f, 0.5f,-2.0f),
-			glm::vec3(0.0f, 0.5f,-4.0f),
-			glm::vec3(-2.0f, 0.5f,-4.0f),
-			glm::vec3(2.0f, 0.5f,-4.0f),
-			glm::vec3(-4.5f, 0.5f, 4.5f),
-			glm::vec3(-4.5f, 1.5f, 4.5f),
-			glm::vec3(-3.5f, 0.5f, 4.5f),
-			glm::vec3(-4.5f, 0.5f, 3.5f)
+			glm::vec3(camX, 0.0f, camZ),
+			glm::vec3(-2.0f, 0.0f, 0.0f),
+			glm::vec3(-2.0f, 0.0f,-2.0f),
+			glm::vec3(0.0f, 0.0f,-2.0f),
+			glm::vec3(2.0f, 0.0f, 0.0f),
+			glm::vec3(2.0f, 0.0f,-2.0f),
+			glm::vec3(0.0f, 0.0f,-4.0f),
+			glm::vec3(-2.0f, 0.0f,-4.0f),
+			glm::vec3(2.0f, 0.0f,-4.0f),
+			glm::vec3(-4.5f, 0.0f, 4.5f),
+			glm::vec3(-4.5f, 1.0f, 4.5f),
+			glm::vec3(-3.5f, 0.0f, 4.5f),
+			glm::vec3(-4.5f, 0.0f, 3.5f),
+			glm::vec3(0.0f, 0.0f, 0.0f)
 		};
 
 		m_Shader.Bind();
 		GLCall(glBindVertexArray(m_VAO[0]));
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		for (int i = 0; i < 13; i++) {
+		for (int i = 0; i < 14; i++) {
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::translate(model, boxPos[i]);
 			glm::mat4 mvp = proj * view * model;
@@ -456,18 +458,21 @@ namespace test {
 		m_Shader.Bind();
 		GLCall(glBindVertexArray(m_VAO[1]));
 		glBindTexture(GL_TEXTURE_2D, m_texture2);
+
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, -0.25f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, -0.75f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
 		glm::mat4 mvp = proj * view * model;
 		m_Shader.SetUniformMat4f("u_MVP", mvp);
 		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 		// -----------------------------------------------------
 
+
 		// Draw wall -------------------------------------------
 		m_Shader.Bind();
-		GLCall(glBindVertexArray(m_VAO[4]));
+		GLCall(glBindVertexArray(m_VAO[2]));
 		glBindTexture(GL_TEXTURE_2D, m_texture4);
+
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, -0.25f, 5.25f));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -476,41 +481,31 @@ namespace test {
 		m_Shader.SetUniformMat4f("u_MVP", mvp);
 		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 		// -----------------------------------------------------
-		
-		
-		// Draw pyramid -----------------------------------------
+
+		// Draw Cube -------------------------------------------
 		m_Shader2.Bind();
-		GLCall(glBindVertexArray(m_VAO[2]));
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 2.0f));
-		model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		mvp = proj * view * model;
-		m_Shader2.SetUniformMat4f("u_MVP", mvp);
-		GLCall(glDrawArrays(GL_TRIANGLES, 0, 30));
-		// -------------------------------------------------------
-
-
-		// Draw Triangle -----------------------------------------
-		const glm::vec3 TriPos[] = {
-			glm::vec3(0.0f, 3.0f, 4.0f),
-			glm::vec3(0.5f, 2.0f, 4.0f),
-			glm::vec3(-0.5f, 2.0f, 4.0f)
-		};
-
-		m_Shader.Bind();
-		glBindTexture(GL_TEXTURE_2D, m_texture3);
 		GLCall(glBindVertexArray(m_VAO[3]));
 
-		for (int i = 0; i < 3; i++) {
-			model = glm::mat4(1.0f);
-			model = glm::translate(model, TriPos[i]);
-			model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-			mvp = proj * view * model;
-			m_Shader.SetUniformMat4f("u_MVP", mvp);
-			GLCall(glDrawArrays(GL_TRIANGLES, 0, 3));
-		}
-		// --------------------------------------------------------------
+		m_Shader2.SetUniform3f("objectColor", 1.0f, 0.5f, 0.31f);
+		m_Shader2.SetUniform3f("lightColor", 1.0f, 1.0f, 1.0f);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.0f));
+		mvp = proj * view * model;
+		m_Shader2.SetUniformMat4f("u_MVP", mvp);
+		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
+		// -----------------------------------------------------
+
+		// Draw Light Cube ------------------------------------------
+		m_Shader3.Bind();
+		GLCall(glBindVertexArray(m_VAO[4]));
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(1.2f, 1.0f, 2.0f)));
+		model = glm::scale(model, glm::vec3(0.2f));
+		mvp = proj * view * model;
+		m_Shader3.SetUniformMat4f("u_MVP", mvp);
+		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
+		// --------------------------------------------------------
 	}
 
 	void TestTexture2D::OnImGuiRender()

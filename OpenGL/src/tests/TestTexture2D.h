@@ -22,9 +22,9 @@ namespace test {
 		void OnImGuiRender() override;
 
 	private:
-		Shader m_Shader, m_Shader2;
+		Shader m_Shader, m_Shader2, m_Shader3;
 	 
-		unsigned int m_Buffer[5], m_VAO[5];
+		unsigned int m_Buffer[4], m_VAO[5];
 		unsigned int texture[2];
 		float m_XValue = 0;
 		int m_Switch = 0;

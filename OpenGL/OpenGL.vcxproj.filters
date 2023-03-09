@@ -487,6 +487,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="res\shaders\Basic.shader2" />
+    <None Include="res\shaders\Basic.shader3" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
