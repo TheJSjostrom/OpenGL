@@ -158,47 +158,47 @@ namespace test {
 		};
 
 		float vertices4[] = {
-			-0.5f, -0.5f, -0.5f,
-			 0.5f, -0.5f, -0.5f,
-			 0.5f,  0.5f, -0.5f,
-			 0.5f,  0.5f, -0.5f,
-			-0.5f,  0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-			-0.5f, -0.5f,  0.5f,
-			 0.5f, -0.5f,  0.5f,
-			 0.5f,  0.5f,  0.5f,
-			 0.5f,  0.5f,  0.5f,
-			-0.5f,  0.5f,  0.5f,
-			-0.5f, -0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
 
-			-0.5f,  0.5f,  0.5f,
-			-0.5f,  0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
-			-0.5f, -0.5f,  0.5f,
-			-0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+			-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-			 0.5f,  0.5f,  0.5f,
-			 0.5f,  0.5f, -0.5f,
-			 0.5f, -0.5f, -0.5f,
-			 0.5f, -0.5f, -0.5f,
-			 0.5f, -0.5f,  0.5f,
-			 0.5f,  0.5f,  0.5f,
+			 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+			 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+			 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+			 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+			 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+			 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-			-0.5f, -0.5f, -0.5f,
-			 0.5f, -0.5f, -0.5f,
-			 0.5f, -0.5f,  0.5f,
-			 0.5f, -0.5f,  0.5f,
-			-0.5f, -0.5f,  0.5f,
-			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+			-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-			-0.5f,  0.5f, -0.5f,
-			 0.5f,  0.5f, -0.5f,
-			 0.5f,  0.5f,  0.5f,
-			 0.5f,  0.5f,  0.5f,
-			-0.5f,  0.5f,  0.5f,
-			-0.5f,  0.5f, -0.5f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 		};
 
 		// Create Vertex Buffer Objects & Vertex Array Object
@@ -243,15 +243,17 @@ namespace test {
 		GLCall(glBindVertexArray(m_VAO[3]));
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[3]));
 		GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices4), vertices4, GL_STATIC_DRAW));
-		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0)); // Vertex Position
+		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0)); // Vertex Position
 		GLCall(glEnableVertexAttribArray(0));
+		GLCall(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)))); // Vertex Position
+		GLCall(glEnableVertexAttribArray(1));
 		// ------------------------------------------------------------------------------------------------------------
 		 
 		
 		// Light Cube Vertex Data ------------------------------------------------------------------------------------
 		GLCall(glBindVertexArray(m_VAO[4]));
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_Buffer[3]));
-		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0)); // Vertex Position
+		GLCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0)); // Vertex Position
 		GLCall(glEnableVertexAttribArray(0));
 		// ------------------------------------------------------------------------------------------------------------
 
@@ -366,12 +368,12 @@ namespace test {
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 proj = glm::mat4(1.0f);
 
-		 
 		// Camera movement settings
-		const float radius = 2.0f;
-		float camX = sin(glfwGetTime()) * radius;
-		float camZ = cos(glfwGetTime()) * radius;
-		view = glm::lookAt(glm::vec3(0.0f, 3.0f, 5.0f), glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0, 1.0, 0.0));
+ 
+		view = glm::lookAt(glm::vec3(-4.0f, 4.0f, 4.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));
+		//const float radius = 5.0f;
+		//float camX = sin(glfwGetTime()) * radius;
+		//float camZ = cos(glfwGetTime()) * radius;
 		//view = glm::lookAt(glm::vec3(camX, 3.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 		//view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		//view = glm::translate(view, glm::vec3(-4.0f, 0.0f, 0.0f)); // Camera position
@@ -381,50 +383,37 @@ namespace test {
 		// Projection Matrix
 		proj = glm::perspective(glm::radians(45.0f), (float)960 / (float)540, 0.1f, 100.0f);
 		
-		if (m_XValue >= 1) {
+		
+		float zPos = m_x;
+
+		if (m_x >= 2) {
 			m_Switch = 0;
 		}
-		else if (m_XValue <= -1) {
+		else if (m_x <= -2) {
 			m_Switch = 1;
-		}
-
-		if (m_Switch == 1) {
-			m_XValue += 0.01f;
-		}
-		else if (m_Switch == 0) {
-			m_XValue -= 0.01f;
-		}
-		
-		float z = m_x * m_x;
-		
-		if (m_x >= 3) {
-			m_Switch2 = 0;
-		}
-		else if (m_x <= -3) {
-			m_Switch2 = 1;
 			}
 
-		if (m_Switch2 == 1) {
+		if (m_Switch == 1) {
 			m_x += 0.05f;
 		}
-		else if (m_Switch2 == 0) {
+		else if (m_Switch == 0) {
 			m_x -= 0.05f;
 		}
 
 		const float cameraSpeed = 0.05f; // adjust accordingly
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			cameraPos += cameraSpeed * cameraFront;
+			m_lightPos.z -= 0.05;
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			cameraPos -= cameraSpeed * cameraFront;
+			m_lightPos.z += 0.05;
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+			m_lightPos.x -= 0.05;
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+			m_lightPos.x += 0.05f;
 
 
 		// Draw boxes -------------------------------------
 		const glm::vec3 boxPos[] = {
-			glm::vec3(camX, 0.0f, camZ),
+			glm::vec3(m_x, 0.0f, zPos),
 			glm::vec3(-2.0f, 0.0f, 0.0f),
 			glm::vec3(-2.0f, 0.0f,-2.0f),
 			glm::vec3(0.0f, 0.0f,-2.0f),
@@ -437,7 +426,7 @@ namespace test {
 			glm::vec3(-4.5f, 1.0f, 4.5f),
 			glm::vec3(-3.5f, 0.0f, 4.5f),
 			glm::vec3(-4.5f, 0.0f, 3.5f),
-			glm::vec3(0.0f, 0.0f, 0.0f)
+		 
 		};
 
 		m_Shader.Bind();
@@ -483,13 +472,17 @@ namespace test {
 		// -----------------------------------------------------
 
 		// Draw Cube -------------------------------------------
+
 		m_Shader2.Bind();
 		GLCall(glBindVertexArray(m_VAO[3]));
 
 		m_Shader2.SetUniform3f("objectColor", 1.0f, 0.5f, 0.31f);
 		m_Shader2.SetUniform3f("lightColor", 1.0f, 1.0f, 1.0f);
+		m_Shader2.SetUniform3f("lightPos", m_lightPos.x, m_lightPos.y, m_lightPos.z);
+
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.0f));
+		m_Shader2.SetUniformMat4f("model", model);
 		mvp = proj * view * model;
 		m_Shader2.SetUniformMat4f("u_MVP", mvp);
 		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
@@ -498,9 +491,8 @@ namespace test {
 		// Draw Light Cube ------------------------------------------
 		m_Shader3.Bind();
 		GLCall(glBindVertexArray(m_VAO[4]));
-
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(1.2f, 1.0f, 2.0f)));
+		model = glm::translate(model, m_lightPos);
 		model = glm::scale(model, glm::vec3(0.2f));
 		mvp = proj * view * model;
 		m_Shader3.SetUniformMat4f("u_MVP", mvp);
