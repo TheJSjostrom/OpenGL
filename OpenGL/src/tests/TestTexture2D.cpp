@@ -368,13 +368,13 @@ namespace test {
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 proj = glm::mat4(1.0f);
 
-		// Camera movement settings
- 
-		view = glm::lookAt(glm::vec3(-4.0f, 4.0f, 4.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));
+		// Camera settings
+		
+		view = glm::lookAt(m_camPos, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));
 		//const float radius = 5.0f;
 		//float camX = sin(glfwGetTime()) * radius;
 		//float camZ = cos(glfwGetTime()) * radius;
-		//view = glm::lookAt(glm::vec3(camX, 3.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+		//view = glm::lookAt(glm::vec3(camX, 2.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 		//view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		//view = glm::translate(view, glm::vec3(-4.0f, 0.0f, 0.0f)); // Camera position
 		//view = glm::rotate(view, glm::radians(-45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -399,7 +399,7 @@ namespace test {
 		else if (m_Switch == 0) {
 			m_x -= 0.05f;
 		}
-
+ 
 		const float cameraSpeed = 0.05f; // adjust accordingly
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 			m_lightPos.z -= 0.05;
@@ -409,7 +409,18 @@ namespace test {
 			m_lightPos.x -= 0.05;
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 			m_lightPos.x += 0.05f;
-
+		if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			m_camPos.y += 0.05f;
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+			m_camPos.y -= 0.05f;
+		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+			m_camPos.x -= 0.05f;
+		if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+			m_camPos.x += 0.05f;
+		if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+			m_lightPos.y += 0.05f;
+		if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+			m_lightPos.y -= 0.05f;
 
 		// Draw boxes -------------------------------------
 		const glm::vec3 boxPos[] = {
@@ -438,7 +449,7 @@ namespace test {
 			model = glm::translate(model, boxPos[i]);
 			glm::mat4 mvp = proj * view * model;
 			m_Shader.SetUniformMat4f("u_MVP", mvp);
-			GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
+			//GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 		}
 		// -------------------------------------------------
 		 
@@ -453,7 +464,7 @@ namespace test {
 		model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
 		glm::mat4 mvp = proj * view * model;
 		m_Shader.SetUniformMat4f("u_MVP", mvp);
-		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
+		//GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 		// -----------------------------------------------------
 
 
@@ -468,27 +479,32 @@ namespace test {
 		model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
 		mvp = proj * view * model;
 		m_Shader.SetUniformMat4f("u_MVP", mvp);
-		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
+	    //GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 		// -----------------------------------------------------
 
-		// Draw Cube -------------------------------------------
-
+		// Draw floor Cube -------------------------------------------
 		m_Shader2.Bind();
 		GLCall(glBindVertexArray(m_VAO[3]));
-
-		m_Shader2.SetUniform3f("objectColor", 1.0f, 0.5f, 0.31f);
-		m_Shader2.SetUniform3f("lightColor", 1.0f, 1.0f, 1.0f);
+		m_Shader2.SetUniform3f("objectColor", m_ObjectColor.r, m_ObjectColor.g, m_ObjectColor.b);
+		m_Shader2.SetUniform3f("lightColor", m_LightColor.r, m_LightColor.g, m_LightColor.b);
 		m_Shader2.SetUniform3f("lightPos", m_lightPos.x, m_lightPos.y, m_lightPos.z);
-
+		m_Shader2.SetUniform3f("viewPos", m_camPos.x, m_camPos.y, m_camPos.z);
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, m_trans);
+		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(m_rot), glm::vec3(1.0f, 0.5f, 0.0f));
+		model = glm::scale(model, m_scale);
 		m_Shader2.SetUniformMat4f("model", model);
 		mvp = proj * view * model;
 		m_Shader2.SetUniformMat4f("u_MVP", mvp);
 		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 		// -----------------------------------------------------
-
+		
 		// Draw Light Cube ------------------------------------------
+		const float radius = 5.0f;
+		float camX = sin(m_LightObjPos) * radius;
+		float camZ = cos(m_LightObjPos) * radius;
+		m_lightPos.x = camX;
+		m_lightPos.z = camZ;
 		m_Shader3.Bind();
 		GLCall(glBindVertexArray(m_VAO[4]));
 		model = glm::mat4(1.0f);
@@ -498,6 +514,29 @@ namespace test {
 		m_Shader3.SetUniformMat4f("u_MVP", mvp);
 		GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
 		// --------------------------------------------------------
+
+		// IMGUI
+		//----------------------------------------------------------
+		ImGui::Begin("Editor");
+			// Lighting settings
+			ImGui::Text("Light Settings");
+			ImGui::ColorEdit3("Light color", &m_LightColor.r);
+			ImGui::SliderFloat("Light Direction", &m_LightObjPos, 0.0f, 10.0f);
+			ImGui::Text("");
+
+			// Object Settings
+			ImGui::Text("Object Settings");
+			ImGui::ColorEdit3("Object color", &m_ObjectColor.r);
+			ImGui::Text("");
+			ImGui::Text("Transform");
+			ImGui::SliderFloat3("Translation", &m_trans.x, -10.0f, 10.0f);
+			ImGui::SliderFloat3("Scale", &m_scale.x, 0.0f, 10.0f);
+			ImGui::SliderFloat("Rotation", &m_rot, 0.0f, 100.0f);
+
+		ImGui::End();
+
+		ImGui::ShowDemoWindow();
+		//----------------------------------------------------------
 	}
 
 	void TestTexture2D::OnImGuiRender()

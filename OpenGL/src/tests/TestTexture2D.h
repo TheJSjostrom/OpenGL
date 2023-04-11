@@ -39,7 +39,18 @@ namespace test {
 		glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 		glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-		glm::vec3 m_lightPos = glm::vec3(0.5f, 1.0f, 2.0f);
+		glm::vec3 m_lightPos = glm::vec3(0.8f, 2.0f, 0.0f);
+		glm::vec3 m_camPos = glm::vec3(2.0f, 3.0f, 5.0f);
+	 
+		float angle = 0.0f;
+
+		glm::vec3 m_ObjectColor = glm::vec3(1.0f, 0.5f, 0.31f);
+		glm::vec3 m_LightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+		float m_LightObjPos = 0.0f;
+
+		glm::vec3 m_trans = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 m_scale = glm::vec3(1.0f, 1.0f, 1.0f);
+		float m_rot = 0.0f;
 	};
 
 }
